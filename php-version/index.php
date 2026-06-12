@@ -55,9 +55,9 @@ include __DIR__ . '/includes/header.php';
         ])));
         $hi = app_icons();
         ?>
-        <div class="hero-showcase mx-auto" data-testid="hero-showcase">
+        <div class="hero-showcase mx-auto hero-techie" data-testid="hero-showcase">
           <div class="hero-showcase-frame">
-            <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=1100&auto=format&fit=crop" alt="Clean modern workspace running genuine Microsoft Office and Windows software from <?= esc(SITE_BRAND) ?>" class="hero-showcase-img" loading="eager" fetchpriority="high">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1100&auto=format&fit=crop" alt="Modern tech workspace — circuit board and code running genuine Microsoft software from <?= esc(SITE_BRAND) ?>" class="hero-showcase-img" loading="eager" fetchpriority="high">
             <div class="hero-showcase-overlay"></div>
             <a href="product.php?slug=<?= esc($heroSlides[0]['slug']) ?>" id="hero-photo-link" class="hero-photo-link" aria-label="View <?= esc($heroSlides[0]['name']) ?>" title="<?= esc($heroSlides[0]['name']) ?>" data-testid="hero-photo-link"></a>
             <div class="hero-apps-pill" data-testid="hero-apps-pill">

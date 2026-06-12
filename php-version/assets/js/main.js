@@ -344,3 +344,50 @@ async function sendChat(ev) {
   start();
 })();
 
+
+
+/* ---------- 360° product viewer — drag to spin ---------- */
+(function () {
+  function attachSpin(wrap) {
+    if (wrap.dataset.spinReady) return;
+    wrap.dataset.spinReady = '1';
+    const img = wrap.querySelector('.product-3d-stage > img');
+    if (!img) return;
+    let dragging = false, startX = 0, startAngle = 0, angle = 0, lastTimer = null;
+    const apply = () => { img.style.transform = 'rotateY(' + angle + 'deg) rotateX(3deg)'; };
+    const onDown = (e) => {
+      dragging = true;
+      wrap.classList.add('dragging');
+      startX = (e.touches ? e.touches[0].clientX : e.clientX);
+      startAngle = angle;
+      e.preventDefault();
+    };
+    const onMove = (e) => {
+      if (!dragging) return;
+      const x = (e.touches ? e.touches[0].clientX : e.clientX);
+      angle = startAngle + (x - startX) * 0.5;
+      apply();
+    };
+    const onUp = () => {
+      if (!dragging) return;
+      dragging = false;
+      // resume auto-rotation after a brief pause
+      clearTimeout(lastTimer);
+      lastTimer = setTimeout(() => {
+        wrap.classList.remove('dragging');
+        img.style.transform = '';
+      }, 1400);
+    };
+    wrap.addEventListener('mousedown', onDown);
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+    wrap.addEventListener('touchstart', onDown, { passive: false });
+    window.addEventListener('touchmove', onMove, { passive: true });
+    window.addEventListener('touchend', onUp);
+  }
+  const init = () => document.querySelectorAll('[data-product-3d]').forEach(attachSpin);
+  document.addEventListener('DOMContentLoaded', init);
+  // re-attach if products are inserted dynamically
+  const mo = new MutationObserver(init);
+  document.addEventListener('DOMContentLoaded', () => mo.observe(document.body, { childList: true, subtree: true }));
+})();

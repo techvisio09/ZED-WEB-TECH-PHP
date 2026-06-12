@@ -209,7 +209,7 @@ function nav_microsoft(): array
 function render_logo(int $size = 40): string
 {
     $id = 'lgrad' . $size;
-    return '<svg class="brand-mark" width="' . $size . '" height="' . $size . '" viewBox="0 0 48 48" fill="none" aria-hidden="true">'
+    $svg = '<svg class="brand-mark" width="' . $size . '" height="' . $size . '" viewBox="0 0 48 48" fill="none" aria-hidden="true">'
         . '<defs><linearGradient id="' . $id . '" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">'
         . '<stop stop-color="#fb7185"/><stop offset="1" stop-color="#fdba74"/></linearGradient></defs>'
         . '<rect x="1.5" y="1.5" width="45" height="45" rx="13" fill="url(#' . $id . ')"/>'
@@ -217,6 +217,21 @@ function render_logo(int $size = 40): string
         . '<path d="M16 14h16L16 34h16" stroke="#fff" stroke-width="4.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>'
         . '<circle cx="37" cy="37" r="2.7" fill="#ffd9dd"/>'
         . '</svg>';
+    return '<span class="logo-3d" data-testid="logo-3d">' . $svg . '</span>';
+}
+
+// Renders an image as a 360°-style 3D product viewer (auto-rotate + bounce + drag-to-spin)
+function render_product_3d(string $imgUrl, string $alt, string $title = '', string $size = '', string $extra = ''): string
+{
+    $sizeClass = $size === 'lg' ? ' product-3d-lg' : ($size === 'sm' ? ' product-3d-sm' : '');
+    $titleAttr = $title !== '' ? ' title="' . esc($title) . '"' : '';
+    return '<div class="product-3d' . $sizeClass . '" data-product-3d="1" ' . $extra . '>'
+        . '<div class="product-3d-floor"></div>'
+        . '<div class="product-3d-stage">'
+        . '<img src="' . esc($imgUrl) . '" alt="' . esc($alt) . '"' . $titleAttr . ' draggable="false" loading="lazy">'
+        . '</div>'
+        . '<span class="product-3d-badge" aria-label="360 degree view">360°</span>'
+        . '</div>';
 }
 
 // Stores a contact/support form submission
@@ -331,7 +346,7 @@ function render_product_card(array $p): string
       ' . $badge . $discount . '
       <a href="product.php?slug=' . esc($p['slug']) . '" class="text-decoration-none">
         <div class="ratio ratio-1x1 bg-body-tertiary rounded-top product-img-wrap">
-          <img src="' . esc($p['image']) . '" alt="' . esc(product_img_alt($p)) . '" title="' . esc($p['name']) . '" class="object-fit-contain p-3" loading="lazy">
+          ' . render_product_3d($p['image'], product_img_alt($p), $p['name']) . '
         </div>
       </a>
       <div class="card-body text-center d-flex flex-column">

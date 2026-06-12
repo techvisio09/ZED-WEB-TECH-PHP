@@ -65,10 +65,10 @@ include __DIR__ . '/includes/header.php';
   <div class="row g-4 g-lg-5 mt-1">
     <div class="col-lg-5">
       <div class="card border p-4 position-relative">
-        <?php if ($product['badge']): ?><span class="badge text-bg-primary position-absolute top-0 start-0 m-3"><?= esc($product['badge']) ?></span><?php endif; ?>
-        <?php if ($discountPct): ?><span class="badge text-bg-danger position-absolute top-0 end-0 m-3">-<?= $discountPct ?>%</span><?php endif; ?>
-        <div class="product-img-wrap rounded p-3">
-          <img src="<?= esc($product['image']) ?>" alt="<?= esc(product_img_alt($product)) ?>" title="<?= esc($product['name']) ?>" class="img-fluid mx-auto d-block" style="max-height:300px; object-fit:contain;">
+        <?php if ($product['badge']): ?><span class="badge text-bg-primary position-absolute top-0 start-0 m-3" style="z-index:4"><?= esc($product['badge']) ?></span><?php endif; ?>
+        <?php if ($discountPct): ?><span class="badge text-bg-danger position-absolute top-0 end-0 m-3" style="z-index:4">-<?= $discountPct ?>%</span><?php endif; ?>
+        <div class="product-img-wrap rounded p-3" style="min-height:320px;">
+          <?= render_product_3d($product['image'], product_img_alt($product), $product['name'], 'lg', 'data-testid="product-3d-main"') ?>
         </div>
       </div>
     </div>

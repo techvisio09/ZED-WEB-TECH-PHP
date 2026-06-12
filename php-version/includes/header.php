@@ -78,25 +78,16 @@ $ogImage = $ogImage ?? site_url() . '/assets/images/badges/microsoft-verified.sv
 <body>
 
 <?php if ($checkoutHeader): ?>
-<!-- Slim secure-checkout header -->
-<nav class="navbar bg-body border-bottom">
-  <div class="container d-flex align-items-center justify-content-between flex-wrap gap-2">
-    <a class="navbar-brand d-flex align-items-center gap-2 me-0" href="index.php" data-testid="brand-logo">
-      <?= render_logo(36) ?>
-      <span class="brand-text">Zed <span class="brand-grad">Webtech</span></span>
+<!-- Centered branded checkout banner — logo + company name with 360° spin -->
+<div class="checkout-v3-banner" data-testid="checkout-banner">
+  <div class="v3b-inner">
+    <a href="index.php" class="d-flex align-items-center gap-3 text-decoration-none text-reset" data-testid="brand-logo">
+      <?= render_logo(56) ?>
+      <span class="text-3d text-3d-shine v3b-title" style="font-size: clamp(1.6rem, 3vw, 2.4rem);">Zed Webtech</span>
     </a>
-    <div class="d-none d-md-flex align-items-center gap-2 small">
-      <i class="bi bi-patch-check-fill text-success"></i>
-      <span class="fw-semibold">Shopper Approved</span>
-      <span class="text-secondary">5,519+ verified reviews</span>
-      <span class="badge text-bg-warning text-dark">★ 4.6</span>
-    </div>
-    <div class="d-flex align-items-center gap-3 small">
-      <a href="tel:<?= SITE_PHONE ?>" class="text-decoration-none fw-semibold"><i class="bi bi-telephone-fill me-1"></i><?= SITE_PHONE ?></a>
-      <span class="text-success fw-semibold d-none d-sm-inline"><i class="bi bi-lock-fill me-1"></i>Secure Checkout</span>
-    </div>
+    <span class="v3b-sub"><i class="bi bi-lock-fill me-1"></i>Secure Checkout · 256-bit SSL · Powered by Stripe</span>
   </div>
-</nav>
+</div>
 <?php else: ?>
 
 <!-- Promo bar -->
@@ -126,7 +117,7 @@ $ogImage = $ogImage ?? site_url() . '/assets/images/badges/microsoft-verified.sv
     <a class="navbar-brand d-flex align-items-center gap-2" href="index.php" data-testid="brand-logo">
       <?= render_logo(42) ?>
       <span>
-        <span class="brand-text d-block lh-1">Zed <span class="brand-grad">Webtech</span></span>
+        <span class="brand-text d-block lh-1">Zed <span class="brand-grad text-3d text-3d-shine">Webtech</span></span>
         <small class="brand-tag">AUTHORIZED RESELLER</small>
       </span>
     </a>
