@@ -2565,3 +2565,98 @@ a:not(.btn):not(.nav-link):not(.dropdown-item):not(.text-decoration-none):hover 
 /* Slightly smaller hero size for editorial balance */
 .hero .display-4 { font-size: clamp(1.9rem, 3.4vw, 2.65rem) !important; }
 
+
+/* ================================================================
+   GLOBAL HEADLINE WEIGHT — REFINED & EDITORIAL (Jan 2026)
+   Lighter, more elegant typography across all section headings.
+   ================================================================ */
+
+/* All headings — refined regular weight, soft slate color */
+h1, h2, h3,
+.h1, .h2, .h3,
+.display-1, .display-2, .display-3, .display-4, .display-5, .display-6 {
+  font-weight: 400 !important;
+  letter-spacing: -.02em !important;
+  line-height: 1.18 !important;
+  color: #1f2937;
+}
+
+/* H4-H6 stay a touch heavier for card/list titles */
+h4, h5, h6, .h4, .h5, .h6 {
+  font-weight: 500 !important;
+  letter-spacing: -.01em !important;
+}
+
+/* Bootstrap fw-bold utility tones down to a refined medium */
+.fw-bold { font-weight: 600 !important; }
+.fw-semibold { font-weight: 500 !important; }
+
+/* Section section titles ("Best Sellers", "Picked for you", "Welcome back…",
+   "Why Choose Us", "Trusted Partner", etc.) */
+section h2, section .h2,
+.section h2, .section .h2 {
+  font-weight: 400 !important;
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem) !important;
+}
+
+/* Card titles & product titles unaffected by the global override */
+.card-title, .product-title { font-weight: 500 !important; }
+
+/* "Welcome back — explore Office 2024 software" — the em-dash phrasing
+   should read airy, so subdue dashes/colons */
+.welcome-back-title, .picked-title, .bestseller-title {
+  font-weight: 400 !important;
+}
+
+/* Eyebrow / kicker labels stay uppercase & spaced — these read elegant */
+.eyebrow, small.eyebrow, .text-uppercase {
+  font-weight: 600 !important;
+  letter-spacing: .14em;
+}
+
+/* "Best Sellers", "Picked for you" badges/strong words can be slightly heavier
+   inside the otherwise light headline */
+h1 strong, h2 strong, h3 strong,
+.display-4 strong, .display-5 strong {
+  font-weight: 600 !important;
+  color: inherit;
+}
+
+/* Accents (gold) inside headlines — soft, medium weight */
+h1 .accent, h2 .accent, h3 .accent,
+.display-4 .accent, .display-5 .accent {
+  font-weight: 500 !important;
+  color: #8e7137;
+}
+
+/* Hero stats — softer */
+.hero-stats div { font-weight: 500 !important; letter-spacing: -.01em; }
+.hero-stats .fs-3 { font-weight: 500 !important; }
+
+/* Buttons — keep readable but refined */
+.btn { font-weight: 500 !important; letter-spacing: 0; }
+.btn-lg { font-weight: 500 !important; }
+
+/* Brand wordmark — already light from earlier; ensure it stays */
+.brand-text { font-weight: 500 !important; }
+.brand-grad { font-weight: 500 !important; }
+
+/* Footer/section subtitles read in regular weight */
+.footer-dark h3, .footer-dark h5 { font-weight: 400 !important; }
+
+/* Dark-mode refinement — same lighter weights with proper contrast */
+[data-bs-theme="dark"] h1,
+[data-bs-theme="dark"] h2,
+[data-bs-theme="dark"] h3,
+[data-bs-theme="dark"] .h1,
+[data-bs-theme="dark"] .h2,
+[data-bs-theme="dark"] .h3,
+[data-bs-theme="dark"] .display-4,
+[data-bs-theme="dark"] .display-5,
+[data-bs-theme="dark"] .display-6 { color: #f1f5f9 !important; font-weight: 400 !important; }
+
+[data-bs-theme="dark"] h1 .accent,
+[data-bs-theme="dark"] h2 .accent,
+[data-bs-theme="dark"] h3 .accent,
+[data-bs-theme="dark"] .display-4 .accent { color: #e6c483 !important; }
+
