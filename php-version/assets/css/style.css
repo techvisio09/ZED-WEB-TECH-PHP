@@ -2529,3 +2529,39 @@ a:not(.btn):not(.nav-link):not(.dropdown-item):not(.text-decoration-none):hover 
   .product-card .card-body .fw-bold.text-primary { font-size: .88rem !important; }
 }
 
+
+/* ================================================================
+   HERO HEADLINE — REFINED LIGHT WEIGHT (Jan 2026)
+   Soften the bold "Boost Productivity…" headline for a premium,
+   editorial feel. Keep size/scale but reduce font-weight.
+   ================================================================ */
+.hero h1,
+.hero .display-4 {
+  font-weight: 400 !important;
+  letter-spacing: -.02em !important;
+  line-height: 1.12 !important;
+  color: #1f2937 !important;
+}
+.hero h1 .accent,
+.hero .display-4 .accent {
+  font-weight: 500 !important;
+  color: #8e7137 !important;
+  font-style: normal;
+}
+/* Optional: emphasize the brand keyword "Microsoft Office 2024" subtly */
+.hero h1 strong,
+.hero .display-4 strong { font-weight: 600 !important; }
+
+[data-bs-theme="dark"] .hero h1,
+[data-bs-theme="dark"] .hero .display-4 { color: #f1f5f9 !important; }
+[data-bs-theme="dark"] .hero h1 .accent,
+[data-bs-theme="dark"] .hero .display-4 .accent { color: #e6c483 !important; }
+
+/* Match hero supporting copy to lighter weight too */
+.hero p.fs-5 { font-weight: 400 !important; color: #4b5563; }
+[data-bs-theme="dark"] .hero p.fs-5 { color: #cbd5e1 !important; }
+.hero ul.list-unstyled li { font-weight: 400 !important; }
+
+/* Slightly smaller hero size for editorial balance */
+.hero .display-4 { font-size: clamp(1.9rem, 3.4vw, 2.65rem) !important; }
+
