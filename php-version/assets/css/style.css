@@ -2343,3 +2343,163 @@ a:not(.btn):not(.nav-link):not(.dropdown-item):not(.text-decoration-none):hover 
 [data-bs-theme="dark"] .modal-header, [data-bs-theme="dark"] .modal-footer { border-color: #353a45 !important; }
 [data-bs-theme="dark"] .btn-close { filter: invert(1) brightness(1.2); }
 
+
+/* ================================================================
+   PRODUCT CARD — COMPACT & ELEGANT (Jan 2026)
+   Smaller image area, refined typography, lighter borders to
+   match the soft, premium light palette.
+   ================================================================ */
+.product-card {
+  border-radius: 12px !important;
+  border: 1px solid #ececea !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .03) !important;
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+  overflow: hidden;
+}
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, .08) !important;
+  border-color: #d6d6d2 !important;
+}
+/* Smaller image area — was 76% aspect, now ~50% (much shorter) */
+.product-card .ratio-1x1 { --bs-aspect-ratio: 56% !important; }
+.product-card .product-img-wrap {
+  background: #fbfbfa !important;
+  border: none !important;
+  padding: 6px !important;
+}
+.product-card .product-img-wrap img,
+.product-card .product-3d-stage > img {
+  max-height: 100% !important;
+  max-width: 88% !important;
+  padding: 0 !important;
+}
+.product-card .product-3d-badge {
+  bottom: 6px; left: 6px;
+  font-size: .55rem;
+  padding: 2px 7px;
+}
+
+/* Compact card body */
+.product-card .card-body {
+  padding: .75rem .85rem .85rem !important;
+}
+.product-card .card-body .mb-1.small {
+  font-size: .7rem !important;
+  margin-bottom: 3px !important;
+  color: #94a3b8;
+}
+.product-card .card-body .mb-1.small .bi {
+  font-size: .72rem;
+}
+.product-card .card-body .mb-1.small .text-secondary {
+  font-size: .65rem;
+  color: #9ca3af !important;
+}
+
+/* Refined product title — softer weight, smaller, 1-2 lines */
+.product-card .product-title,
+.product-card .card-body .product-title {
+  font-size: .78rem !important;
+  font-weight: 500 !important;
+  line-height: 1.3 !important;
+  letter-spacing: -.005em;
+  color: #374151;
+  margin-bottom: 6px !important;
+  -webkit-line-clamp: 2;
+  min-height: 2.1em;
+}
+.product-card:hover .product-title { color: #1f2937; }
+
+/* Price row */
+.product-card .card-body .mb-3 {
+  margin-bottom: 8px !important;
+  font-size: .85rem;
+}
+.product-card .card-body .fw-bold.text-primary {
+  font-size: .95rem !important;
+  font-weight: 700 !important;
+  color: #1f2937 !important;
+  letter-spacing: -.01em;
+}
+.product-card .card-body .text-decoration-line-through {
+  font-size: .72rem !important;
+  color: #94a3b8 !important;
+  margin-left: 4px !important;
+}
+
+/* Smaller, refined Add to Cart button */
+.product-card .btn-elessi.add-to-cart-btn {
+  padding: .42rem .8rem !important;
+  font-size: .76rem !important;
+  font-weight: 600 !important;
+  letter-spacing: .005em;
+  border-radius: 8px !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .06) !important;
+}
+.product-card .btn-elessi.add-to-cart-btn:hover {
+  box-shadow: 0 4px 12px rgba(71, 85, 105, .2) !important;
+}
+.product-card .btn-elessi.add-to-cart-btn .bi {
+  font-size: .82rem;
+}
+
+/* Refined corner badges — smaller */
+.product-card .badge.position-absolute {
+  font-size: .58rem !important;
+  font-weight: 700 !important;
+  padding: 3px 7px !important;
+  border-radius: 6px !important;
+  letter-spacing: .02em;
+  margin: 8px !important;
+}
+.product-card .badge.text-bg-primary {
+  background: #f5f5f4 !important;
+  color: #475569 !important;
+  border: 1px solid #e7e7e3;
+}
+.product-card .badge.text-bg-danger {
+  background: #1f2937 !important;
+  color: #e8d6a8 !important;
+  font-weight: 700 !important;
+}
+
+/* Star color — softer gold */
+.product-card .bi-star-fill,
+.product-card .bi-star-half { color: #c8a45f !important; font-size: .7rem; }
+.product-card .bi-star { color: #e7e7e3 !important; font-size: .7rem; }
+
+/* Optional: hide 360 badge on small product cards for a cleaner look (kept on detail) */
+.product-card .product-3d-badge { display: none; }
+
+/* Dark mode product card refinements */
+[data-bs-theme="dark"] .product-card { border-color: #353a45 !important; box-shadow: 0 2px 8px rgba(0, 0, 0, .35) !important; }
+[data-bs-theme="dark"] .product-card:hover { border-color: #4b5563 !important; box-shadow: 0 12px 28px rgba(0, 0, 0, .55) !important; }
+[data-bs-theme="dark"] .product-card .product-img-wrap { background: #f8fafc !important; }
+[data-bs-theme="dark"] .product-card .product-title { color: #e5e7eb !important; }
+[data-bs-theme="dark"] .product-card:hover .product-title { color: #ffffff !important; }
+[data-bs-theme="dark"] .product-card .card-body .fw-bold.text-primary { color: #f1f5f9 !important; }
+[data-bs-theme="dark"] .product-card .badge.text-bg-primary { background: #2a303a !important; color: #e6c483 !important; border-color: #353a45; }
+[data-bs-theme="dark"] .product-card .badge.text-bg-danger { background: #e6c483 !important; color: #1a1d23 !important; }
+[data-bs-theme="dark"] .product-card .btn-elessi.add-to-cart-btn {
+  background: linear-gradient(135deg, #94a3b8, #cbd5e1) !important;
+  color: #1a1d23 !important;
+}
+[data-bs-theme="dark"] .product-card .btn-elessi.add-to-cart-btn:hover {
+  background: linear-gradient(135deg, #cbd5e1, #f1f5f9) !important;
+}
+[data-bs-theme="dark"] .product-card .bi-star { color: #4b5563 !important; }
+
+/* Make the grid tighter on large screens — already 4 columns; ensure smaller padding */
+@media (min-width: 992px) {
+  .bestseller-grid > .col,
+  .row > [class*="col-xl-3"] {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+@media (max-width: 575px) {
+  .product-card .product-title { font-size: .74rem !important; }
+  .product-card .card-body .fw-bold.text-primary { font-size: .88rem !important; }
+}
+
