@@ -55,43 +55,55 @@ include __DIR__ . '/includes/header.php';
         ])));
         $hi = app_icons();
         ?>
-        <div class="hero-showcase mx-auto hero-techie hero-premium" data-testid="hero-showcase">
-          <div class="hero-showcase-frame">
-            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1100&auto=format&fit=crop" alt="Modern tech workspace — circuit board and code running genuine Microsoft software from <?= esc(SITE_BRAND) ?>" class="hero-showcase-img" loading="eager" fetchpriority="high">
-            <div class="hero-showcase-overlay"></div>
-            <!-- Watermark brand mark — subtle, blended into the image -->
-            <svg class="hero-watermark" viewBox="0 0 200 200" aria-hidden="true">
-              <defs>
-                <linearGradient id="hwg" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="#d4a85a" stop-opacity=".55"/>
-                  <stop offset="1" stop-color="#ffffff" stop-opacity=".15"/>
-                </linearGradient>
-              </defs>
-              <text x="100" y="135" text-anchor="middle" font-family="Poppins, Arial, sans-serif" font-weight="900" font-size="160" fill="url(#hwg)" letter-spacing="-8">Z</text>
-            </svg>
-            <span class="hero-watermark-tag" aria-hidden="true">ZED · WEBTECH · LLC · AUTHORIZED RESELLER · ZED · WEBTECH · LLC ·</span>
-            <a href="product.php?slug=<?= esc($heroSlides[0]['slug']) ?>" id="hero-photo-link" class="hero-photo-link" aria-label="View <?= esc($heroSlides[0]['name']) ?>" title="<?= esc($heroSlides[0]['name']) ?>" data-testid="hero-photo-link"></a>
-            <div class="hero-apps-pill" data-testid="hero-apps-pill">
-              <img src="<?= esc($hi['word']) ?>" alt="Microsoft Word">
-              <img src="<?= esc($hi['excel']) ?>" alt="Microsoft Excel">
-              <img src="<?= esc($hi['powerpoint']) ?>" alt="Microsoft PowerPoint">
-              <img src="assets/images/os/windows.svg" alt="Windows">
-            </div>
-            <span class="hero-delivery-pill" data-testid="hero-delivery-pill"><i class="bi bi-lightning-charge-fill"></i>Keys in 15–30 min</span>
-            <!-- Featured product floating chip (replaces full-width glass card) -->
-            <div class="hero-feature-chip" data-testid="hero-product-glass">
-              <?php foreach ($heroSlides as $i => $hp): ?>
-                <a href="product.php?slug=<?= esc($hp['slug']) ?>" class="hero-slide hero-feature-slide<?= $i === 0 ? ' active' : '' ?>" aria-label="<?= esc($hp['name']) ?>" data-testid="hero-slide-<?= $i ?>">
-                  <span class="hero-feature-thumb"><img src="<?= esc($hp['image']) ?>" alt="<?= esc(product_img_alt($hp)) ?>" title="<?= esc($hp['name']) ?>" loading="<?= $i === 0 ? 'eager' : 'lazy' ?>"></span>
-                  <span class="hero-feature-meta">
-                    <small class="hero-feature-eyebrow">Featured</small>
-                    <span class="hero-feature-price"><?= format_price((float)$hp['price']) ?></span>
-                  </span>
-                </a>
-              <?php endforeach; ?>
+        <div class="hero-float-stage" data-testid="hero-showcase">
+          <!-- Soft mesh background -->
+          <div class="hero-float-bg" aria-hidden="true">
+            <span class="hero-blob hero-blob-a"></span>
+            <span class="hero-blob hero-blob-b"></span>
+            <span class="hero-blob hero-blob-c"></span>
+            <span class="hero-grid"></span>
+          </div>
+          <!-- Floating product image (centerpiece) -->
+          <?php $featured = $heroSlides[0]; ?>
+          <a href="product.php?slug=<?= esc($featured['slug']) ?>" id="hero-photo-link" class="hero-float-product" aria-label="View <?= esc($featured['name']) ?>" data-testid="hero-photo-link">
+            <img id="hero-float-img" src="<?= esc($featured['image']) ?>" alt="<?= esc(product_img_alt($featured)) ?>" title="<?= esc($featured['name']) ?>" loading="eager" fetchpriority="high">
+            <span class="hero-float-shadow" aria-hidden="true"></span>
+          </a>
+          <!-- Hidden product list (used by rotator to swap floating image src + link) -->
+          <div class="hero-float-data d-none" data-testid="hero-product-glass">
+            <?php foreach ($heroSlides as $i => $hp): ?>
+              <a class="hero-slide<?= $i === 0 ? ' active' : '' ?>"
+                 href="product.php?slug=<?= esc($hp['slug']) ?>"
+                 data-img="<?= esc($hp['image']) ?>"
+                 data-name="<?= esc($hp['name']) ?>"
+                 data-price="<?= format_price((float)$hp['price']) ?>"
+                 data-testid="hero-slide-<?= $i ?>"><?= esc($hp['name']) ?></a>
+            <?php endforeach; ?>
+          </div>
+          <!-- Floating refined chips -->
+          <span class="hero-chip hero-chip-rating" data-testid="hero-rating-chip">
+            <span class="hero-chip-star">★</span>
+            <span><b>4.6/5</b><br><small>5,519+ reviews</small></span>
+          </span>
+          <span class="hero-chip hero-chip-delivery" data-testid="hero-delivery-pill">
+            <i class="bi bi-lightning-charge-fill"></i>
+            <span><b>Keys in 15–30 min</b><br><small>Instant delivery</small></span>
+          </span>
+          <span class="hero-chip hero-chip-apps" data-testid="hero-apps-pill">
+            <img src="<?= esc($hi['word']) ?>" alt="Word">
+            <img src="<?= esc($hi['excel']) ?>" alt="Excel">
+            <img src="<?= esc($hi['powerpoint']) ?>" alt="PowerPoint">
+            <img src="assets/images/os/windows.svg" alt="Windows">
+            <small class="ms-1">Genuine Microsoft</small>
+          </span>
+          <!-- Featured name + price card -->
+          <div class="hero-name-card" data-testid="hero-name-card">
+            <small class="hero-name-eyebrow">Featured today</small>
+            <div class="hero-name-title" id="hero-float-name"><?= esc($featured['name']) ?></div>
+            <div class="hero-name-price"><span id="hero-float-price"><?= format_price((float)$featured['price']) ?></span>
+              <?php if ($featured['original_price']): ?><small id="hero-float-orig" class="text-secondary text-decoration-line-through ms-1"><?= format_price((float)$featured['original_price']) ?></small><?php endif; ?>
             </div>
           </div>
-          <span class="hero-rating-chip" data-testid="hero-rating-chip"><span class="text-warning">★</span> 4.6/5 · 5,519+ verified reviews</span>
         </div>
         <div class="hero-dots d-flex justify-content-center gap-2 mt-3" data-testid="hero-dots">
           <?php foreach ($heroSlides as $i => $s): ?>

@@ -438,8 +438,22 @@ async function sendChat(ev) {
     const photoLink = document.getElementById('hero-photo-link');
     if (photoLink && slides[idx].getAttribute('href')) {
       photoLink.setAttribute('href', slides[idx].getAttribute('href'));
-      photoLink.setAttribute('aria-label', slides[idx].getAttribute('aria-label') || '');
-      photoLink.setAttribute('title', slides[idx].getAttribute('aria-label') || '');
+      photoLink.setAttribute('aria-label', slides[idx].getAttribute('aria-label') || slides[idx].dataset.name || '');
+      photoLink.setAttribute('title', slides[idx].dataset.name || '');
+    }
+    // Swap the floating product image + name + price
+    const floatImg = document.getElementById('hero-float-img');
+    const floatName = document.getElementById('hero-float-name');
+    const floatPrice = document.getElementById('hero-float-price');
+    if (floatImg && slides[idx].dataset.img) {
+      floatImg.classList.add('swapping');
+      setTimeout(() => {
+        floatImg.src = slides[idx].dataset.img;
+        floatImg.alt = slides[idx].dataset.name || '';
+        if (floatName) floatName.textContent = slides[idx].dataset.name || '';
+        if (floatPrice) floatPrice.textContent = slides[idx].dataset.price || '';
+        floatImg.classList.remove('swapping');
+      }, 180);
     }
     dots.forEach((d, i) => {
       d.classList.remove('active');
