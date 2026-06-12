@@ -12,6 +12,23 @@ if (!isset($_SESSION['cart'])) $_SESSION['cart'] = [];
 if ($action === 'add' && $slug && get_product($slug)) {
     $qty = max(1, (int)($in['qty'] ?? 1));
     $_SESSION['cart'][$slug] = ($_SESSION['cart'][$slug] ?? 0) + $qty;
+    $p = get_product($slug);
+    $sub = cart_subtotal();
+    echo json_encode([
+        'ok' => true,
+        'count' => cart_count(),
+        'item_count' => count($_SESSION['cart']),
+        'product' => [
+            'slug' => $p['slug'],
+            'name' => $p['name'],
+            'image' => $p['image'],
+            'price' => (float)$p['price'],
+            'qty_in_cart' => $_SESSION['cart'][$slug],
+        ],
+        'subtotal' => $sub,
+        'subtotal_formatted' => format_price($sub),
+    ]);
+    exit;
 } elseif ($action === 'update' && $slug && isset($_SESSION['cart'][$slug])) {
     $qty = (int)($in['qty'] ?? 1);
     if ($qty <= 0) unset($_SESSION['cart'][$slug]);

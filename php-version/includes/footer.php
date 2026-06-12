@@ -141,6 +141,15 @@
   </div>
 </footer>
 
+<!-- Floating toll-free call button (always visible, bottom-left) -->
+<a href="tel:<?= SITE_PHONE ?>" class="call-fab" data-testid="call-fab" aria-label="Call toll-free <?= SITE_PHONE ?>">
+  <span class="call-fab-icon"><i class="bi bi-telephone-fill"></i></span>
+  <span class="call-fab-lbl">
+    <small>Toll-Free</small>
+    <b><?= SITE_PHONE ?></b>
+  </span>
+</a>
+
 <!-- AI chat widget -->
 <button id="chat-bubble" onclick="toggleChat()" aria-label="Open chat" data-testid="chat-bubble"><i class="bi bi-chat-dots"></i></button>
 <div id="chat-panel" data-testid="chat-panel">

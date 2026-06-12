@@ -78,11 +78,15 @@ document.addEventListener('click', async (e) => {
     e.preventDefault();
     if (btn.dataset.added) { window.location.href = 'cart.php'; return; }
     const qty = parseInt(btn.dataset.qty || document.getElementById('pd-qty')?.value || '1', 10);
+    // Loading state on button
+    btn.classList.add('is-loading');
     const data = await cartAction({ action: 'add', slug: btn.dataset.slug, qty });
+    btn.classList.remove('is-loading');
     updateCartBadge(data.count);
+    flyToCart(btn);
     markAdded(btn);
     if (window.CART_SLUGS && !window.CART_SLUGS.includes(btn.dataset.slug)) window.CART_SLUGS.push(btn.dataset.slug);
-    showToast('<i class="bi bi-check-circle me-1"></i> Added to cart — open the cart to review or continue shopping');
+    showCartPopup(data);
     return;
   }
   const buy = e.target.closest('.buy-now-btn');
@@ -93,6 +97,83 @@ document.addEventListener('click', async (e) => {
     window.location.href = 'cart.php';
   }
 });
+
+/* ---------- Cart popup (slide-in mini-cart on add) ---------- */
+function showCartPopup(data) {
+  if (!data || !data.product) return;
+  let pop = document.getElementById('cart-popup');
+  if (pop) pop.remove();
+  pop = document.createElement('div');
+  pop.id = 'cart-popup';
+  pop.className = 'cart-popup';
+  pop.setAttribute('data-testid', 'cart-popup');
+  const p = data.product;
+  pop.innerHTML = `
+    <div class="cart-popup-head">
+      <span class="cart-popup-tick"><i class="bi bi-check-lg"></i></span>
+      <div class="lh-sm">
+        <div class="cart-popup-title">Added to your cart</div>
+        <small class="text-secondary">${data.item_count} item${data.item_count !== 1 ? 's' : ''} · ${data.count} total qty</small>
+      </div>
+      <button type="button" class="cart-popup-close" aria-label="Close" onclick="closeCartPopup()" data-testid="cart-popup-close">&times;</button>
+    </div>
+    <div class="cart-popup-item">
+      <div class="cart-popup-thumb"><img src="${p.image}" alt="${p.name}"></div>
+      <div class="flex-grow-1 min-w-0">
+        <div class="cart-popup-name" data-testid="cart-popup-name">${p.name}</div>
+        <small class="text-secondary">Qty ${p.qty_in_cart} · $${p.price.toFixed(2)}</small>
+      </div>
+    </div>
+    <div class="cart-popup-total">
+      <span class="text-secondary small">Subtotal</span>
+      <span class="cart-popup-amount" data-testid="cart-popup-subtotal">${data.subtotal_formatted}</span>
+    </div>
+    <div class="cart-popup-actions">
+      <a href="cart.php" class="cart-popup-btn ghost" data-testid="cart-popup-view">View Cart</a>
+      <a href="checkout.php" class="cart-popup-btn primary" data-testid="cart-popup-checkout">Checkout <i class="bi bi-arrow-right"></i></a>
+    </div>
+    <div class="cart-popup-meta">
+      <i class="bi bi-lightning-charge-fill"></i> Instant digital delivery · 15-30 min
+    </div>
+  `;
+  document.body.appendChild(pop);
+  // trigger slide-in
+  requestAnimationFrame(() => pop.classList.add('show'));
+  clearTimeout(window.__cartPopTimer);
+  window.__cartPopTimer = setTimeout(closeCartPopup, 6500);
+}
+function closeCartPopup() {
+  const pop = document.getElementById('cart-popup');
+  if (!pop) return;
+  pop.classList.remove('show');
+  setTimeout(() => pop.remove(), 320);
+}
+
+/* Fly-to-cart micro-animation: clones the product image from the card and animates it into the cart icon */
+function flyToCart(btn) {
+  try {
+    const card = btn.closest('.product-card, .card, .product-3d, .col, .v3-card') || btn.parentElement;
+    const img = (card && (card.querySelector('.product-3d-stage > img') || card.querySelector('img'))) || null;
+    const cartIcon = document.querySelector('[data-testid="cart-button"] i, [data-testid="cart-button-mobile"] i');
+    if (!img || !cartIcon) return;
+    const a = img.getBoundingClientRect();
+    const b = cartIcon.getBoundingClientRect();
+    const clone = img.cloneNode(true);
+    clone.style.cssText = `position:fixed;left:${a.left}px;top:${a.top}px;width:${a.width}px;height:${a.height}px;
+      object-fit:contain;z-index:3000;border-radius:12px;transition:all .85s cubic-bezier(.5,-.1,.7,1.4);
+      background:#fff;padding:6px;box-shadow:0 12px 30px rgba(15,23,42,.25);pointer-events:none;`;
+    document.body.appendChild(clone);
+    requestAnimationFrame(() => {
+      clone.style.left = (b.left + b.width/2 - 14) + 'px';
+      clone.style.top = (b.top + b.height/2 - 14) + 'px';
+      clone.style.width = '28px';
+      clone.style.height = '28px';
+      clone.style.opacity = '0';
+      clone.style.transform = 'rotate(220deg) scale(.4)';
+    });
+    setTimeout(() => clone.remove(), 900);
+  } catch (e) { /* no-op */ }
+}
 
 // Cart page qty / remove
 document.addEventListener('click', async (e) => {
