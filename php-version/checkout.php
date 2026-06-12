@@ -168,6 +168,41 @@ include __DIR__ . '/includes/header.php';
             <span><span class="fst-italic" style="color:#003087">Pay</span><span class="fst-italic" style="color:#0070BA">Pal</span></span>
           </div>
         </div>
+        <!-- Card details form — shown when Card is selected. PCI-safe: no name attrs, never posted -->
+        <div id="card-form" class="v3-card-form show" data-testid="card-details-form">
+          <div class="v3-field" id="cf-number">
+            <label>Card Number<span class="v3-field-check"><i class="bi bi-check"></i></span></label>
+            <div class="v3-card-input-wrap has-icons">
+              <input id="card-number" inputmode="numeric" autocomplete="cc-number" placeholder="1234 5678 9012 3456" maxlength="19" data-testid="card-number-input">
+              <span class="v3-card-brand-icons" id="card-brands" data-testid="card-brand-icons">
+                <img src="assets/images/payments/visa.svg" alt="Visa" data-brand="visa">
+                <img src="assets/images/payments/mastercard.svg" alt="Mastercard" data-brand="mastercard">
+                <img src="assets/images/payments/amex.svg" alt="American Express" data-brand="amex">
+                <img src="assets/images/payments/discover.svg" alt="Discover" data-brand="discover">
+              </span>
+            </div>
+            <div class="v3-field-error"><i class="bi bi-exclamation-circle"></i><span>Please enter a valid card number</span></div>
+          </div>
+          <div class="v3-card-row">
+            <div class="v3-field" id="cf-exp">
+              <label>Expiry Date (MM/YY)<span class="v3-field-check"><i class="bi bi-check"></i></span></label>
+              <input id="card-exp" inputmode="numeric" autocomplete="cc-exp" placeholder="MM/YY" maxlength="5" data-testid="card-exp-input">
+              <div class="v3-field-error"><i class="bi bi-exclamation-circle"></i><span>Invalid expiry date</span></div>
+            </div>
+            <div class="v3-field" id="cf-cvv">
+              <label>CVV / Security Code<span class="v3-field-check"><i class="bi bi-check"></i></span></label>
+              <div class="v3-cvv-wrap">
+                <input id="card-cvv" type="password" inputmode="numeric" autocomplete="cc-csc" placeholder="•••" maxlength="4" data-testid="card-cvv-input">
+                <i class="bi bi-question-circle v3-cvv-help" title="3-4 digit security code on the back of your card (front for Amex)"></i>
+              </div>
+              <div class="v3-field-error"><i class="bi bi-exclamation-circle"></i><span>Enter 3 or 4 digits</span></div>
+            </div>
+          </div>
+          <div class="v3-pay-secure-note">
+            <i class="bi bi-shield-lock-fill"></i>
+            <span>Your card is verified &amp; charged on Stripe's PCI-compliant secure page — we never store card data</span>
+          </div>
+        </div>
         <button id="btn-pay-card" type="submit" class="v3-pay-btn" data-testid="checkout-pay-button">
           <i class="bi bi-lock-fill"></i> Pay Securely · <?= format_price($total) ?>
         </button>

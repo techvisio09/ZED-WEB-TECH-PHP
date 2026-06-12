@@ -1299,3 +1299,302 @@ a:not(.btn):not(.nav-link):not(.dropdown-item):not(.text-decoration-none):hover 
   .cart-popup, .call-fab, .call-fab .call-fab-icon, .cart-popup-tick { animation: none !important; transition: opacity .2s !important; }
 }
 
+
+/* ================================================================
+   PREMIUM HERO — no glass-card overlay, watermark brand mark
+   ================================================================ */
+.hero-premium .hero-showcase-frame {
+  border-radius: 1.6rem;
+  box-shadow:
+    0 28px 60px rgba(15, 23, 42, .22),
+    0 4px 12px rgba(15, 23, 42, .08),
+    inset 0 0 0 1px rgba(255, 255, 255, .08);
+  position: relative;
+}
+.hero-premium .hero-showcase-img {
+  filter: brightness(.78) contrast(1.08) saturate(1.05);
+}
+/* Cinematic gradient + soft top fade for depth */
+.hero-premium .hero-showcase-overlay {
+  background:
+    radial-gradient(60% 50% at 30% 25%, rgba(212, 168, 90, .18), transparent 65%),
+    radial-gradient(50% 60% at 80% 80%, rgba(31, 41, 55, .55), transparent 70%),
+    linear-gradient(180deg, rgba(10, 12, 16, .15) 0%, transparent 30%, rgba(10, 12, 16, .55) 100%);
+}
+/* Hide the old square box completely on premium hero */
+.hero-premium .hero-product-glass,
+.hero-premium .hero-feature-chip { z-index: 3; }
+.hero-premium .hero-product-glass { display: none !important; }
+
+/* Big watermark "Z" — subtle, blends into the image */
+.hero-watermark {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: .22;
+  mix-blend-mode: screen;
+  animation: hero-wm-float 9s ease-in-out infinite;
+}
+@keyframes hero-wm-float {
+  0%, 100% { transform: translateY(0) scale(1); opacity: .22; }
+  50%      { transform: translateY(-6px) scale(1.02); opacity: .3; }
+}
+
+/* Wrap-around watermark tag line (curves around the bottom area) */
+.hero-watermark-tag {
+  position: absolute;
+  left: 0; right: 0; bottom: 14px;
+  text-align: center;
+  font-size: .58rem;
+  letter-spacing: .35em;
+  color: rgba(212, 168, 90, .42);
+  font-weight: 700;
+  text-transform: uppercase;
+  z-index: 2;
+  pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+  padding: 0 10px;
+}
+
+/* Featured product floating chip (replaces the full glass card) */
+.hero-feature-chip {
+  position: absolute;
+  bottom: 24px;
+  right: 18px;
+  z-index: 3;
+  width: auto;
+  height: 56px;
+  pointer-events: none;
+}
+.hero-feature-slide {
+  position: absolute;
+  inset: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px 6px 6px;
+  border-radius: 999px;
+  background: rgba(10, 12, 16, .55);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(212, 168, 90, .35);
+  color: #fff;
+  text-decoration: none;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .4s, transform .4s;
+  pointer-events: auto;
+  white-space: nowrap;
+}
+.hero-feature-slide.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+.hero-feature-slide:hover { background: rgba(10, 12, 16, .7); border-color: rgba(212, 168, 90, .55); color: #fff; }
+.hero-feature-thumb {
+  width: 44px; height: 44px; flex: 0 0 44px;
+  border-radius: 50%;
+  background: #fff;
+  padding: 5px;
+  display: inline-flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .25);
+}
+.hero-feature-thumb img { width: 100%; height: 100%; object-fit: contain; }
+.hero-feature-meta { display: flex; flex-direction: column; line-height: 1.1; }
+.hero-feature-eyebrow {
+  font-size: .54rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--uc-accent);
+  font-weight: 800;
+}
+.hero-feature-price {
+  font-size: .92rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+/* Rating chip — turn into a floating refined pill, off-card */
+.hero-premium .hero-rating-chip {
+  position: absolute;
+  top: 18px;
+  left: -10px;
+  background: linear-gradient(135deg, #0a0c10, #1f2937);
+  color: #fff;
+  border: 1px solid rgba(212, 168, 90, .35);
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: .78rem;
+  font-weight: 700;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .35);
+  z-index: 4;
+}
+.hero-premium .hero-rating-chip .text-warning { color: var(--uc-accent) !important; }
+
+/* Refined floating pills */
+.hero-premium .hero-apps-pill {
+  background: rgba(10, 12, 16, .55);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(212, 168, 90, .28);
+  padding: 6px 10px;
+  border-radius: 999px;
+  z-index: 3;
+}
+.hero-premium .hero-delivery-pill {
+  background: linear-gradient(135deg, var(--uc-accent), var(--uc-accent-strong));
+  color: #0a0c10;
+  border-radius: 999px;
+  padding: 7px 14px;
+  font-size: .76rem;
+  font-weight: 800;
+  letter-spacing: .02em;
+  box-shadow: 0 8px 20px rgba(212, 168, 90, .35);
+  z-index: 3;
+}
+.hero-premium .hero-delivery-pill i { color: #0a0c10 !important; }
+
+@media (max-width: 575px) {
+  .hero-premium .hero-feature-chip { right: 10px; bottom: 16px; height: 48px; }
+  .hero-feature-thumb { width: 38px; height: 38px; flex: 0 0 38px; }
+  .hero-feature-price { font-size: .82rem; }
+  .hero-watermark-tag { font-size: .5rem; letter-spacing: .22em; }
+  .hero-premium .hero-rating-chip { font-size: .68rem; padding: 5px 10px; left: 0; top: 12px; }
+}
+
+/* ================================================================
+   CARD PAYMENT FORM (checkout v3) — premium reveal under Card tile
+   ================================================================ */
+.v3-card-form {
+  display: none;
+  margin-top: 12px;
+  margin-bottom: 14px;
+  padding: 16px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, var(--bs-tertiary-bg) 0%, var(--bs-body-bg) 100%);
+  border: 1px solid var(--bs-border-color);
+  animation: cardform-reveal .35s cubic-bezier(.22, 1, .36, 1);
+}
+.v3-card-form.show { display: block; }
+@keyframes cardform-reveal {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.v3-card-form .v3-field { margin-bottom: 12px; }
+.v3-card-form .v3-field:last-child { margin-bottom: 0; }
+.v3-card-form .v3-field label {
+  font-size: .62rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--bs-secondary-color);
+  font-weight: 700;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.v3-card-form .v3-field input {
+  padding: .55rem .75rem;
+  font-size: .95rem;
+  font-weight: 600;
+  letter-spacing: .04em;
+  border-radius: 9px;
+  border: 1.5px solid var(--bs-border-color);
+  background: var(--bs-body-bg);
+  color: var(--bs-body-color);
+  width: 100%;
+  transition: border-color .15s, box-shadow .15s, background .15s;
+  font-family: 'SF Mono', Menlo, Consolas, monospace;
+}
+.v3-card-form .v3-field input::placeholder { color: var(--bs-secondary-color); opacity: .6; letter-spacing: .04em; }
+.v3-card-form .v3-field input:focus {
+  border-color: var(--uc-accent);
+  box-shadow: 0 0 0 3px rgba(212, 168, 90, .22);
+  background: var(--bs-body-bg);
+  outline: none;
+}
+.v3-card-form .v3-field.valid input { border-color: #16a34a; background-color: rgba(22, 163, 74, .04); }
+.v3-card-form .v3-field.invalid input { border-color: #dc2626; background-color: rgba(220, 38, 38, .04); }
+.v3-card-form .v3-field-error {
+  font-size: .68rem;
+  color: #dc2626;
+  margin-top: 3px;
+  display: none;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+}
+.v3-card-form .v3-field.invalid .v3-field-error { display: flex; }
+.v3-card-form .v3-field.valid .v3-field-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  background: #16a34a;
+  color: #fff;
+  font-size: .65rem;
+  margin-left: auto;
+}
+.v3-card-form .v3-field-check { display: none; }
+.v3-card-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.v3-card-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.v3-card-input-wrap .v3-card-brand-icons {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  gap: 4px;
+  pointer-events: none;
+}
+.v3-card-input-wrap .v3-card-brand-icons img {
+  height: 16px;
+  opacity: .35;
+  filter: grayscale(1);
+  transition: opacity .2s, filter .2s, transform .2s;
+}
+.v3-card-input-wrap .v3-card-brand-icons img.active {
+  opacity: 1;
+  filter: none;
+  transform: scale(1.15);
+}
+.v3-card-input-wrap.has-icons input { padding-right: 110px; }
+.v3-card-form .v3-cvv-wrap {
+  position: relative;
+}
+.v3-card-form .v3-cvv-help {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--bs-secondary-color);
+  cursor: help;
+  font-size: .9rem;
+}
+.v3-card-form .v3-cvv-wrap input { padding-right: 30px; }
+.v3-pay-secure-note {
+  font-size: .68rem;
+  color: var(--bs-secondary-color);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 8px;
+}
+.v3-pay-secure-note i { color: #16a34a; }
+

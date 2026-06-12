@@ -239,10 +239,17 @@ function syncPhoneFlag(sel) {
 /* Card field formatting: number groups of 4, MM/YY expiry, numeric CVV + live brand detect */
 function detectCardBrand(digits) {
   if (digits.startsWith('4')) return 'visa';
-  if (digits.startsWith('5')) return 'mastercard';
-  if (digits.startsWith('3')) return 'amex';
-  if (digits.startsWith('6')) return 'discover';
+  if (/^(5[1-5]|2[2-7])/.test(digits)) return 'mastercard';
+  if (/^3[47]/.test(digits)) return 'amex';
+  if (/^(6011|65|64[4-9])/.test(digits)) return 'discover';
   return '';
+}
+
+/* Mark a v3 field as valid / invalid / pending */
+function markField(field, state) {
+  if (!field) return;
+  field.classList.remove('valid', 'invalid');
+  if (state) field.classList.add(state);
 }
 
 document.addEventListener('input', (e) => {
@@ -250,23 +257,48 @@ document.addEventListener('input', (e) => {
     const digits = e.target.value.replace(/\D/g, '').slice(0, 16);
     e.target.value = digits.replace(/(\d{4})(?=\d)/g, '$1 ');
     const brand = digits.length ? detectCardBrand(digits) : '';
-    document.querySelectorAll('#card-brands .card-brand-icon').forEach((i) => {
+    document.querySelectorAll('#card-brands img').forEach((i) => {
       i.classList.toggle('active', i.dataset.brand === brand);
-      i.classList.toggle('dimmed', brand !== '' && i.dataset.brand !== brand);
     });
+    const expected = brand === 'amex' ? 15 : 16;
+    const field = document.getElementById('cf-number');
+    if (digits.length === 0) markField(field, null);
+    else if (digits.length === expected) markField(field, 'valid');
+    else if (digits.length >= expected || (digits.length >= 13 && brand)) markField(field, digits.length === expected ? 'valid' : 'invalid');
+    else markField(field, null);
   } else if (e.target.id === 'card-exp') {
     let v = e.target.value.replace(/\D/g, '').slice(0, 4);
     if (v.length >= 3) v = v.slice(0, 2) + '/' + v.slice(2);
     e.target.value = v;
+    const field = document.getElementById('cf-exp');
+    if (v.length === 0) markField(field, null);
+    else if (v.length === 5) {
+      const [m, y] = v.split('/').map(Number);
+      const now = new Date();
+      const curYear = now.getFullYear() % 100;
+      const curMonth = now.getMonth() + 1;
+      const valid = m >= 1 && m <= 12 && (y > curYear || (y === curYear && m >= curMonth));
+      markField(field, valid ? 'valid' : 'invalid');
+    } else markField(field, null);
   } else if (e.target.id === 'card-cvv') {
     e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
+    const brandImg = document.querySelector('#card-brands img.active');
+    const expected = brandImg && brandImg.dataset.brand === 'amex' ? 4 : 3;
+    const field = document.getElementById('cf-cvv');
+    if (e.target.value.length === 0) markField(field, null);
+    else if (e.target.value.length === expected || e.target.value.length === 4) markField(field, 'valid');
+    else markField(field, null);
   }
 });
 
 function selectPayMethod(method) {
-  document.querySelectorAll('.pay-option').forEach((o) => o.classList.remove('active'));
+  document.querySelectorAll('.pay-option, .v3-pay-tile').forEach((o) => o.classList.remove('active'));
   const opt = document.getElementById('pay-' + method);
   if (opt) opt.classList.add('active');
+  const cardRadio = document.querySelector('#pay-card input[type=radio]');
+  const ppRadio = document.querySelector('#pay-paypal input[type=radio]');
+  if (cardRadio) cardRadio.checked = method === 'card';
+  if (ppRadio) ppRadio.checked = method === 'paypal';
   const cardForm = document.getElementById('card-form');
   const paypalInfo = document.getElementById('paypal-info');
   const cardBtn = document.getElementById('btn-pay-card');
